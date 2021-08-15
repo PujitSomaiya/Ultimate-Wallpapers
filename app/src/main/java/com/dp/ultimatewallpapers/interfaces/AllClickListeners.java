@@ -8,7 +8,7 @@ public interface AllClickListeners {
 
 
     interface OnImageClick{
-        void onImageClick(int position, HitsItem item);
+        void onImageClick(int position, HitsItem item, boolean isForDownload);
     }
 
 

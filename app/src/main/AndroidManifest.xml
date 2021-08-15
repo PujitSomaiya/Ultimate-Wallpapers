@@ -2,12 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dp.ultimatewallpapers">
 
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:name=".application.UltimateWallpapersApplication"
@@ -19,16 +18,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UltimateWallpapers"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.splash.SplashActivity"
-          android:screenOrientation="portrait" >
+        <activity android:name=".view.fullscreen.view.FullScreenActivity"></activity>
+        <activity
+            android:name=".view.home.view.HomeScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.main.MainActivity"
+        <activity
+            android:name=".view.main.MainActivity"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6724890135457979~9344008252" />
     </application>
 
 </manifest>

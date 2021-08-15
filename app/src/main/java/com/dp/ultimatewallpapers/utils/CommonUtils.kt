@@ -10,7 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 
 
-class CommonUtils {
+
 
     fun showKeyboard(context: Context) {
         val inputMethodManager =
@@ -18,7 +18,7 @@ class CommonUtils {
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
-    fun closeKeyboard(context: Context) {
+    public fun closeKeyboard(context: Context) {
         val inputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInput(
@@ -65,4 +65,3 @@ class CommonUtils {
         }
     }
 
-}
