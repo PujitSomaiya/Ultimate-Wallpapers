@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_main_background">#101820</color>
     <color name="color_theme_00FFFF">#00FFFF</color>
+    <color name="color_edittext_40464D">#40464D</color>
+    <color name="color_dialog_bg_50565B">#50565B</color>
 </resources>

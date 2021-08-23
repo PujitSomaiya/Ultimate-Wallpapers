@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_25sdp"
+    android:paddingStart="@dimen/_15sdp"
+    android:paddingEnd="@dimen/_15sdp"
+    android:paddingBottom="@dimen/_25sdp"
+    android:background="@drawable/bg_bottom_dialog">
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Reset to defaults"
+            android:background="@color/color_theme_00FFFF"
+            android:textColor="@color/color_main_background"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Save"
+            android:background="@color/color_theme_00FFFF"
+            android:textColor="@color/color_main_background"
+            android:textSize="@dimen/_12sdp" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rgImageType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/rbAll"
+        app:layout_constraintTop_toBottomOf="@id/tvImageType">
+
+        <RadioButton
+            android:id="@+id/rbAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="All"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rbPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="Photo"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIllustration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="Illustration"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rbVector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="Vector"
+            android:textColor="@color/white" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rgOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:checkedButton="@id/rbOrientationAll"
+        app:layout_constraintBottom_toTopOf="@id/llBottom"
+        app:layout_constraintTop_toBottomOf="@id/tvOrientation">
+
+        <RadioButton
+            android:id="@+id/rbOrientationAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="All"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rbHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="Horizontal"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rbVertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:minHeight="1dp"
+            android:text="Vertical"
+            android:textColor="@color/white" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="Orientation"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/rgImageType" />
+
+    <TextView
+        android:id="@+id/tvImageType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="Image Type"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

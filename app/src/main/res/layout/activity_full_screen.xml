@@ -11,6 +11,7 @@
         android:id="@+id/imgWallpaper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@id/llBottom"
         app:layout_constraintTop_toBottomOf="@id/llTop" />
 
@@ -44,6 +45,7 @@
             android:layout_weight="6"/>
 
         <LinearLayout
+            android:id="@+id/llShare"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -68,7 +70,8 @@
         android:layout_height="@dimen/_55sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/adView"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -83,7 +86,9 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
-                android:padding="@dimen/_8sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
                 android:src="@drawable/ic_download"
                 app:tint="@color/white" />
 
@@ -94,7 +99,7 @@
                 android:text="Download"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_9ssp" />
 
         </LinearLayout>
 
@@ -111,7 +116,9 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
-                android:padding="@dimen/_8sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
                 android:src="@drawable/ic_wallpaper"
                 app:tint="@color/white" />
 
@@ -121,10 +128,20 @@
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="Set Wallpaper"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_9ssp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6491242549381158/2982585780"
+        ads:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

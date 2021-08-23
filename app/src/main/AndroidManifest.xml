@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dp.ultimatewallpapers">
+    package="com.pmggroup.ultimatewallpapers">
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
-        android:name=".application.UltimateWallpapersApplication"
+        android:name="com.pmggroup.ultimatewallpapers.application.UltimateWallpapersApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,12 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UltimateWallpapers"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.fullscreen.view.FullScreenActivity"></activity>
+        <activity android:name="com.pmggroup.ultimatewallpapers.view.fullscreen.view.FullScreenActivity"></activity>
         <activity
-            android:name=".view.home.view.HomeScreenActivity"
+            android:name="com.pmggroup.ultimatewallpapers.view.home.view.HomeScreenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.splash.SplashActivity"
+            android:name="com.pmggroup.ultimatewallpapers.view.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +32,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.main.MainActivity"
+            android:name="com.pmggroup.ultimatewallpapers.view.main.MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6724890135457979~9344008252" />
+            android:value="ca-app-pub-6491242549381158~6741512172" />
     </application>
 
 </manifest>
