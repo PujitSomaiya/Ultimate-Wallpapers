@@ -12,7 +12,7 @@
         android:id="@+id/imgSplashLogo"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
-        android:src="@drawable/ic_logo"
+        android:src="@drawable/logo_round_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

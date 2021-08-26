@@ -109,7 +109,12 @@ class FullScreenActivity : AppCompatActivity() {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "image/*"
                 intent.putExtra(Intent.EXTRA_STREAM, getBitmapFromView(bitmap))
-                startActivity(Intent.createChooser(intent, "Share Image"))
+                intent.putExtra(Intent.EXTRA_TEXT, "Check out free wallpapers App\n" +
+                        "Free to download, free to set wallpaper directly, free to share wallpaper...\n" +
+                        "\n" +
+                        "So what are you waiting for..?\n" +
+                        "Download the app free now... "+"\n"+"https://play.google.com/store/apps/details?id=$packageName");
+                startActivity(Intent.createChooser(intent, "Share Wallpaper"))
             }
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
             override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) { }
