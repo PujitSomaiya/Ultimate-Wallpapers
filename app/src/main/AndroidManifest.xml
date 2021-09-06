@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UltimateWallpapers"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.pmggroup.ultimatewallpapers.view.fullscreen.view.FullScreenActivity"></activity>
+        <activity android:name="com.pmggroup.ultimatewallpapers.view.fullscreen.view.FullScreenActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.pmggroup.ultimatewallpapers.view.home.view.HomeScreenActivity"
             android:screenOrientation="portrait" />
@@ -33,7 +34,9 @@
         <activity
             android:name="com.pmggroup.ultimatewallpapers.view.main.MainActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UltimateWallpapers2"/>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6491242549381158~6741512172" />

@@ -2,6 +2,7 @@ package com.pmggroup.ultimatewallpapers.view.fullscreen.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DownloadManager
 import android.app.WallpaperManager
@@ -18,6 +19,7 @@ import android.os.Environment
 import android.os.StrictMode
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -42,6 +44,8 @@ import com.pmggroup.ultimatewallpapers.R
 import com.pmggroup.ultimatewallpapers.api.response.HitsItem
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -150,7 +154,8 @@ class FullScreenActivity : AppCompatActivity() {
                     // check if all permissions are granted
                     if (report.areAllPermissionsGranted()) {
                         if (isForSetWallpaper){
-                            setWallpaper()
+                            launchWallpaper()
+                            /*setWallpaper()*/
                         }else{
                             shareImageFromURI(item.largeImageURL)
                         }
@@ -178,7 +183,38 @@ class FullScreenActivity : AppCompatActivity() {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private fun setWallpaper() {
+    private fun launchWallpaper() {
+        var image: File? = null
+        object : AsyncTask<Void, Void, Boolean>() {
+
+            override fun doInBackground(vararg params: Void?): Boolean {
+                return try {
+                    image = Glide.with(this@FullScreenActivity)
+                        .downloadOnly()
+                        .load(item.largeImageURL)
+                        .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .get()
+                    true
+                } catch (ex: java.lang.Exception) {
+                    false
+                }
+            }
+
+            override fun onPostExecute(result: Boolean?) {
+                try {
+                    if (image != null)
+                    launchImageCrop(Uri.fromFile(image))
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        this@FullScreenActivity, "Failed!!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }.execute()
+    }
+    @SuppressLint("StaticFieldLeak")
+    private fun setWallpaper(imageFile:Uri) {
         var image: File? = null
         object : AsyncTask<Void, Void, Boolean>() {
 
@@ -187,7 +223,7 @@ class FullScreenActivity : AppCompatActivity() {
                     image = Glide.with(this@FullScreenActivity)
                         .downloadOnly()
                         .diskCacheStrategy(DiskCacheStrategy.DATA) // Cache resource before it's decoded
-                        .load(item.largeImageURL)
+                        .load(imageFile)
                         .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                         .get()
                     true
@@ -357,5 +393,32 @@ class FullScreenActivity : AppCompatActivity() {
         val uri = Uri.fromParts("package", packageName, null)
         intent.data = uri
         startActivityForResult(intent, 101)
+    }
+
+    private fun launchImageCrop(uri: Uri){
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.OFF)
+            .start(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                val result = CropImage.getActivityResult(data)
+                if (resultCode == Activity.RESULT_OK) {
+                    if (result.isSuccessful){
+                        setWallpaper(result.uri)
+                    }else{
+
+                    }
+
+                }
+                else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Log.e("TAG", "Crop error: ${result.error}" )
+                }
+            }
+        }
     }
 }

@@ -24,6 +24,15 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.gson.Gson
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.pmggroup.ultimatewallpapers.R
 import com.pmggroup.ultimatewallpapers.api.APIClient
 import com.pmggroup.ultimatewallpapers.api.APIInterface
@@ -35,15 +44,6 @@ import com.pmggroup.ultimatewallpapers.utils.*
 import com.pmggroup.ultimatewallpapers.view.fullscreen.view.FullScreenActivity
 import com.pmggroup.ultimatewallpapers.view.home.adapter.ImageAdapter
 import com.pmggroup.ultimatewallpapers.view.home.adapter.SuggestionsAdapter
-import com.google.android.gms.ads.*
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.gson.Gson
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +53,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, AllClickListeners.OnSuggestionClick, AllClickListeners.SetOnBottomDialogButtonClick {
+class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick,
+    AllClickListeners.OnSuggestionClick, AllClickListeners.SetOnBottomDialogButtonClick {
 
     private lateinit var apiInterface: APIInterface
     private lateinit var photoResponse: PhotoResponse
@@ -64,6 +65,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private var currentOffset = 2
+    private var addCount = 0
     private var searchField = ""
     private var category = ""
     private var isLoadMore = false
@@ -89,6 +91,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
     private lateinit var item: HitsItem
     private var mAdIsLoading: Boolean = false
     private lateinit var dialog: BottomDialog
+    private var pixybyApiKey="23046411-9a876cbf36c9dce4bd1c44893"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,7 +136,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
         }
 
         imgSearch.setOnClickListener {
-            edSearchBox.text.clear();
+            edSearchBox.text.clear()
             isEdittextVisible = if (isEdittextVisible) {
                 imgSearch.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -174,25 +177,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
         }
 
         edSearchBox.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                /*if (edSearchBox.toString().trim().length > 1) {
-                    *//*imgClear.visibility = View.VISIBLE*//*
-                    searchField = edSearchBox.toString().trim()
-                    currentOffset = 1
-                    isLoadMore = false
-                    isFromEditText = true
-                    callApi(searchField, currentOffset, isLoadMore, imageType, orientation, category)
-                } else {
-                    *//*imgClear.visibility = View.INVISIBLE*//*
-                    searchField = ""
-                    currentOffset = 1
-                    isLoadMore = false
-                    isFromEditText = true
-                    callApi(searchField, currentOffset, isLoadMore, imageType, orientation, category)
-                }*/
-
-                true
-            } else false
+            actionId == EditorInfo.IME_ACTION_SEARCH
         })
 
         imgMenu.setOnClickListener {
@@ -386,7 +371,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
             progressbar.visibility = View.VISIBLE
 
         val call: Call<PhotoResponse> = apiInterface.getPhotos(
-            "23046411-9a876cbf36c9dce4bd1c44893",
+            pixybyApiKey,
             key,
             imageType,
             page,
@@ -456,47 +441,57 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
         isForDownload: Boolean
     ) {
         this.item = item
-        if (isForDownload) {
-            this.isForDownload = true
-            showInterstitial()
+        addCount += 1
+        if (addCount % 3 == 0) {
+            if (isForDownload) {
+                this.isForDownload = true
+                showInterstitial()
+            } else {
+                this.isForDownload = false
+                showInterstitial()
+            }
         } else {
-            this.isForDownload = false
-            showInterstitial()
+            if (isForDownload) {
+                this.isForDownload = true
+                afterAdAndRedirect()
+            } else {
+                this.isForDownload = false
+                afterAdAndRedirect()
+            }
         }
-        /*dialogForDownload(position, item)*/
     }
 
 
-    private fun persmissionCheckAndDownload(item: HitsItem) {
+    private fun permissionCheckAndDownload(item: HitsItem) {
         Dexter.withActivity(this)
-                .withPermissions(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                .withListener(object : MultiplePermissionsListener {
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            downloadFile(item.largeImageURL)
-                        }
-
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied) {
-                            showSettingsDialog()
-                        }
+            .withPermissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    // check if all permissions are granted
+                    if (report.areAllPermissionsGranted()) {
+                        downloadFile(item.largeImageURL)
                     }
 
-                    override fun onPermissionRationaleShouldBeShown(
-                        permissions: MutableList<PermissionRequest>?,
-                        token: PermissionToken?
-                    ) {
-                        token!!.continuePermissionRequest()
+                    // check for permanent denial of any permission
+                    if (report.isAnyPermissionPermanentlyDenied) {
+                        showSettingsDialog()
                     }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token!!.continuePermissionRequest()
+                }
 
 
-                })
-                .onSameThread()
-                .check()
+            })
+            .onSameThread()
+            .check()
     }
 
     fun downloadFile(uRl: String?) {
@@ -506,7 +501,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
         }
 
         val mgr =
-                this@HomeScreenActivity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            this@HomeScreenActivity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val downloadUri: Uri = Uri.parse(uRl)
         val request = DownloadManager.Request(
             downloadUri
@@ -515,9 +510,9 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
             DownloadManager.Request.NETWORK_WIFI
                     or DownloadManager.Request.NETWORK_MOBILE
         )
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setAllowedOverRoaming(true).setTitle("Image")
-                .setDescription("Downloading!!!")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setAllowedOverRoaming(true).setTitle("Image")
+            .setDescription("Downloading!!!")
 
         mgr.enqueue(request)
     }
@@ -533,8 +528,8 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
 
 //        New-way to store image in gallery (not secured) ******
         val storagePath =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                        .toString() + "/WallpaperHub"
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .toString() + "/WallpaperHub"
         val NewStorageDir = File(storagePath)
         if (!NewStorageDir.exists()) {
             val wallpaperDirectory = File(storagePath)
@@ -551,7 +546,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
 
     private fun showSettingsDialog() {
         val builder =
-                AlertDialog.Builder(this@HomeScreenActivity)
+            AlertDialog.Builder(this@HomeScreenActivity)
         builder.setTitle("Need Permissions")
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
         builder.setPositiveButton("GOTO SETTINGS", object : DialogInterface.OnClickListener {
@@ -610,6 +605,8 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
     }
 
     private fun loadAd() {
+        /*test ca-app-pub-3940256099942544/8691691433*/
+        /*live ca-app-pub-6491242549381158/4486883924*/
         InterstitialAd.load(
             this, "ca-app-pub-6491242549381158/4486883924", adRequest,
             object : InterstitialAdLoadCallback() {
@@ -639,7 +636,7 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick, 
     private fun afterAdAndRedirect() {
         if (isForDownload) {
             toast("Download starting...")
-            persmissionCheckAndDownload(item)
+            permissionCheckAndDownload(item)
 
         } else {
             val intent = Intent(this@HomeScreenActivity, FullScreenActivity::class.java)
