@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -11,8 +13,8 @@ android {
         applicationId "com.pmggroup.ultimatewallpapers"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -75,4 +77,10 @@ dependencies {
 
     // Android-Image-Cropper
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }

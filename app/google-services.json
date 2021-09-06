@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "497800750908",
+    "project_id": "ultimate-wallpapers-6081c",
+    "storage_bucket": "ultimate-wallpapers-6081c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497800750908:android:fef40fbff7afdbbfb12039",
+        "android_client_info": {
+          "package_name": "com.pmggroup.ultimatewallpapers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497800750908-e8uihq8qllas263h05qhrd5bh11mabqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDljrugfIa2h49Q_1m6k9IjtHxiG6Qv_mQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497800750908-e8uihq8qllas263h05qhrd5bh11mabqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
