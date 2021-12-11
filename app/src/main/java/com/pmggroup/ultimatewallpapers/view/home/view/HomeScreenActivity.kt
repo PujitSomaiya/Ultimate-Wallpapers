@@ -526,19 +526,10 @@ class HomeScreenActivity : AppCompatActivity(), AllClickListeners.OnImageClick,
         ).format(Date())
         val imageFileName = "IMG_" + timeStamp + "_"
 
-//        New-way to store image in gallery (not secured) ******
-        val storagePath =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .toString() + "/WallpaperHub"
-        val NewStorageDir = File(storagePath)
-        if (!NewStorageDir.exists()) {
-            val wallpaperDirectory = File(storagePath)
-            wallpaperDirectory.mkdirs()
-        }
         val image = File.createTempFile(
             imageFileName,  /* prefix */
             ".jpg",  /* suffix */
-            NewStorageDir /* directory */
+            this@HomeScreenActivity.filesDir /* directory */
         )
         imageFilePath = image.absolutePath
         return image

@@ -13,8 +13,8 @@ android {
         applicationId "com.pmggroup.ultimatewallpapers"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.6(11.12.2021)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -82,5 +82,4 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-analytics'
 }

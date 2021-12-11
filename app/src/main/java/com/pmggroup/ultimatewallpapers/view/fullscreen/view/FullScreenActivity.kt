@@ -341,28 +341,10 @@ class FullScreenActivity : AppCompatActivity() {
         ).format(Date())
         val imageFileName = "IMG_" + timeStamp + "_"
 
-//        New-way to store image in gallery (not secured) ******
-        val storagePath =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .toString() + "/WallpaperHub"
-        val NewStorageDir = File(storagePath)
-        if (!NewStorageDir.exists()) {
-            val wallpaperDirectory = File(storagePath)
-            wallpaperDirectory.mkdirs()
-        }
-
-
-//        *****************
-
-//        old-way to store images in app's package name pictures folder (secured)
-//        -------------------
-//        File storageDir =
-//                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        -------------------
         val image = File.createTempFile(
             imageFileName,  /* prefix */
             ".jpg",  /* suffix */
-            NewStorageDir /* directory */
+            this@FullScreenActivity.filesDir /* directory */
         )
         imageFilePath = image.absolutePath
         return image
